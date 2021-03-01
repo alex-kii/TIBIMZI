@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="398" FontSize="14">
-            <Run Text="Вас приветствует средство оценки безопасности финансовой организации в соответствии с " >
+            <Run Name="TT_Term" Text="Вас приветствует средство оценки безопасности финансовой организации в соответствии с " >
                 <Run.ToolTip>
                     ...
                 </Run.ToolTip>
