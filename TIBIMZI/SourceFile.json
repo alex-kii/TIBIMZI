@@ -2,23 +2,46 @@
   {
     "Number": 0,
     "Data": {
-      "Question": "Вопрос вопросов",
-      "Answer1": "A",
-      "Answer2": "B",
-      "Answer3": "C",
-      "Answer4": "D",
-      "Termin" : "Term_ex"
+      "Question": "Вопрос вопросов 1",
+      "Answer1": "A1",
+      "Priority1": 0,
+      "Answer2": "B1",
+      "Priority2": 0,
+      "Answer3": "C1",
+      "Priority3": 0,
+      "Answer4": "D1",
+      "Priority4": 0,
+      "Termin": "Term_ex1"
     }
   },
   {
     "Number": 1,
     "Data": {
-      "Question": "Парковка такси по адресу проспект Буденного дом 18Б",
-      "Answer1": "город Москва, проспект Буденного, дом 18Б",
-      "Answer2": 5,
-      "Answer3": "круглосуточно",
-      "Answer4": "круглосуточно",
-      "Termin" : ""
+      "Question": "Вопрос вопросов 2",
+      "Answer1": "A2",
+      "Priority1": 0,
+      "Answer2": "B2",
+      "Priority2": 0,
+      "Answer3": "C2",
+      "Priority3": 0,
+      "Answer4": "D2",
+      "Priority4": 0,
+      "Termin": "Term_ex2"
+    }
+  },
+  {
+    "Number": 2,
+    "Data": {
+      "Question": "Вопрос вопросов 3",
+      "Answer1": "A3",
+      "Priority1": 0,
+      "Answer2": "B3",
+      "Priority2": 0,
+      "Answer3": "C3",
+      "Priority3": 0,
+      "Answer4": "D3",
+      "Priority4": 0,
+      "Termin": "Term_ex3"
     }
   }
 ]
