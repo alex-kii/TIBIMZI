@@ -19,7 +19,7 @@
             <RowDefinition Height="0.5*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock Name="abc" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="398" FontSize="14">
+        <TextBlock Name="abc" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="398" Margin="0 0 0 20" FontSize="14">
             <Run Name="TT_Term" Text="Вас приветствует средство оценки безопасности финансовой организации в соответствии с " >
                 <Run.ToolTip>
                     ...
@@ -28,7 +28,7 @@
 			<Run Name="GOST" FontWeight="Bold">ГОСТ Р 57580.1-2017.</Run>
         </TextBlock>
 
-        <StackPanel Width="200" VerticalAlignment="Bottom" >
+        <StackPanel Margin="0 0 0 20" Width="200" VerticalAlignment="Bottom" >
 
             <TextBlock FontSize="14">Тип организации :</TextBlock>
             <ComboBox Name="CB1" SelectionChanged="CB1_SelectionChanged">
@@ -41,29 +41,29 @@
         </StackPanel>
 
 
-        <Rectangle Name="AnswersBackground" Grid.Row="1" Fill="WhiteSmoke" Width="400" Height="120" RadiusX="15" RadiusY="15" Margin="10" Opacity="0.5" Visibility="Hidden"/>
+        <Rectangle Name="AnswersBackground" Grid.Row="1" Fill="WhiteSmoke" Width="500" Height="140" RadiusX="15" RadiusY="15" Margin="10" Opacity="0.5" Visibility="Hidden"/>
 
-        <StackPanel Name="StackAnswerPanel" Grid.Row="1" Height="120" Width="400" Visibility="Hidden">
+        <StackPanel Name="StackAnswerPanel" Grid.Row="1" Height="140" Width="500" Visibility="Hidden">
 
-            <RadioButton Name="RB1" Margin="20 30 0 0" >
+            <RadioButton Name="RB1" Margin="20 10 0 0" >
                 <TextBlock Name="RB1_TB" TextWrapping="Wrap">
                     Выбор 1
                 </TextBlock> 
             </RadioButton>
 
-            <RadioButton Name="RB2" Margin="20 0 0 0"  >
+            <RadioButton Name="RB2" Margin="20 5 0 0"  >
                 <TextBlock Name="RB2_TB" TextWrapping="Wrap">
 					Выбор 2
                 </TextBlock>
             </RadioButton>
 
-            <RadioButton Name="RB3" Margin="20 0 0 0" >
+            <RadioButton Name="RB3" Margin="20 5 0 0" >
                 <TextBlock Name="RB3_TB" TextWrapping="Wrap">
 					Выбор 3
                 </TextBlock>
             </RadioButton>
 
-            <RadioButton Name="RB4" Margin="20 0 0 0" >
+            <RadioButton Name="RB4" Margin="20 5 0 10" >
                 <TextBlock Name="RB4_TB" TextWrapping="Wrap">
 					Выбор 4
                 </TextBlock>

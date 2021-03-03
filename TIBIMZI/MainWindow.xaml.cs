@@ -65,7 +65,8 @@ namespace TIBIMZI
         {
             GOST.Text = "";
             AnswersBackground.Visibility = Visibility.Visible;
-            StackAnswerPanel.Visibility = Visibility.Visible;   
+            StackAnswerPanel.Visibility = Visibility.Visible;
+            RB1.IsChecked = true;
             ++count_click;
 
             // if(count_click == ??)
@@ -85,13 +86,18 @@ namespace TIBIMZI
             // Считывание ответа (RadioButton)
             if ((bool)RB1.IsChecked)
                 Answers[count_click] = 1;
-            else if((bool)RB2.IsChecked)
+            else if ((bool)RB2.IsChecked)
                 Answers[count_click] = 2;
             else if ((bool)RB3.IsChecked)
                 Answers[count_click] = 3;
             else if ((bool)RB4.IsChecked)
                 Answers[count_click] = 4;
-            else Answers[count_click] = 0;
+            else if (count_click > 0)
+            {
+                Answers[count_click] = 0;
+                MessageBox.Show($"Вы пропустили ответ на вопрос №{count_click}.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+                
 
             // MessageBox.Show($"{Deser_Obj[0].Data.Question} - кликов сделано");
 
