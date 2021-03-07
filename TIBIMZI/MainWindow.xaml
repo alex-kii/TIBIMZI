@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TIBIMZI"
-        mc:Ignorable="d" Height="450" Width="800" Title="Analyzation of security">
+        mc:Ignorable="d" Height="450" Width="800" Title="Analyzation of security" ResizeMode="CanMinimize">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -19,7 +19,7 @@
             <RowDefinition Height="0.5*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock Name="abc" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="400" Margin="0 0 0 20" FontSize="14">
+        <TextBlock Name="abc" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="570" Margin="0 0 0 20" FontSize="16">
             <Run Name="TT_Term" Text="Вас приветствует средство оценки безопасности финансовой организации в соответствии с " >
                 <Run.ToolTip>
                     ...
@@ -71,7 +71,7 @@
 
         </StackPanel>
 
-        <Button Name="Button1" Grid.Row="2" Height="30" Width="120" HorizontalAlignment="Right" Margin="0 15 80 20" Click="Button1_Click" Visibility="Hidden">
+        <Button Name="Button1" IsDefault="True" Grid.Row="2" Height="30" Width="120" HorizontalAlignment="Right" Margin="0 15 80 20" Click="Button1_Click" Visibility="Hidden">
             Далее
         </Button>
         <!--<Canvas Grid.Row="1" Height="140" Width="400" Background="LightGreen"> 

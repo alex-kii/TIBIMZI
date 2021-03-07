@@ -26,34 +26,103 @@ namespace TIBIMZI
         public MainWindow()
         {
             InitializeComponent();
-            
+
         }
 
-        static SByte count_click = -1;
-        static byte[] Answers = new byte[22];       
+        static sbyte count_click = -2;
+        static byte[] Answers = new byte[16];
 
         List<Access> Deser_Obj; // Глоб. переменная с данными
 
-        /// <summary>
-        /// ПЕРЕПРОЕКТИРОВАТЬ СЕРИАЛИЗАЦИЮ ПОД НОВЫЙ ДЖСОН!!!!!!!!!!!!!!
-        /// </summary>
-
-        private void DeserObj() // Метод для считывания данных !!!!!!!!!ДОБАВИТЬ ТРУ КАТЧ!!!!!!!!!!!!
+        private void DeserObj() // Метод для считывания данных
         {
             // read file into a string and deserialize JSON to a type
             //Movie movie1 = JsonConvert.DeserializeObject<Movie>(File.ReadAllText(@"c:\movie.json"));
 
-            // deserialize JSON directly from a file
-            using (StreamReader file = File.OpenText(@"C:\Users\zifof\source\repos\TIBIMZI\TIBIMZI\SourceFile.json"))
+            try
             {
-                JsonSerializer serializer = new JsonSerializer();
-                Deser_Obj = (List<Access>)serializer.Deserialize(file, typeof(List<Access>));
+                // десериализация JSON из файла
+                using (StreamReader file = File.OpenText(@"C:\Users\zifof\source\repos\TIBIMZI\TIBIMZI\SourceFile.json"))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    Deser_Obj = (List<Access>)serializer.Deserialize(file, typeof(List<Access>));
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
-        private void Analyzing()
-        { 
-            MessageBox.Show("Some Code...");
+        // СТЕРЕТЬ
+        string[] sov1 = new string[16]; // советы для плохого случая 
+        string[] sov2 = new string[16]; // советы для хорошего случая. Иначе потом заебёмся анализировать что куда вставить
+
+        private float Analyzing()
+        {
+            float sum = 0.0f;
+            
+
+            for (int i = 0; i < Answers.Length; i++)
+            {
+
+                switch (Answers[i])
+                {
+                    case 1:
+                        sum += Deser_Obj[i].Data.Priority1;
+
+                        if (Deser_Obj[i].Data.Priority1 == 0.25)
+                            sov1[i] = Deser_Obj[i].Data.Advice1;
+                        else if (Deser_Obj[i].Data.Priority1 < 1)
+                            sov2[i] = Deser_Obj[i].Data.Advice2;
+
+                        break;
+
+                    case 2:
+                        sum += Deser_Obj[i].Data.Priority2;
+
+                        if (Deser_Obj[i].Data.Priority2 == 0.25)
+                            sov1[i] = Deser_Obj[i].Data.Advice1;
+                        else if (Deser_Obj[i].Data.Priority2 < 1)
+                            sov2[i] = Deser_Obj[i].Data.Advice2;
+
+                        break;
+
+                    case 3:
+                        sum += Deser_Obj[i].Data.Priority3;
+
+                        if (Deser_Obj[i].Data.Priority2 == 0.25)
+                            sov1[i] = Deser_Obj[i].Data.Advice1;
+                        else if (Deser_Obj[i].Data.Priority2 < 1)
+                            sov2[i] = Deser_Obj[i].Data.Advice2;
+
+                        break;
+
+                    case 4:
+                        sum += Deser_Obj[i].Data.Priority4;
+
+                        if (Deser_Obj[i].Data.Priority2 == 0.25)
+                            sov1[i] = Deser_Obj[i].Data.Advice1;
+                        else if (Deser_Obj[i].Data.Priority2 < 1)
+                            sov2[i] = Deser_Obj[i].Data.Advice2;
+
+                        break;
+
+                    default:
+                        sum += 0;
+
+                        if (Deser_Obj[i].Data.Priority2 == 0.25)
+                            sov1[i] = Deser_Obj[i].Data.Advice1;
+                        else if (Deser_Obj[i].Data.Priority2 < 1)
+                            sov2[i] = Deser_Obj[i].Data.Advice2;
+
+                        break;
+                }
+
+            }
+
+            return sum*10;
         }
 
         private void CB1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -63,47 +132,65 @@ namespace TIBIMZI
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            GOST.Text = "";
-            AnswersBackground.Visibility = Visibility.Visible;
-            StackAnswerPanel.Visibility = Visibility.Visible;
-            RB1.IsChecked = true;
             ++count_click;
+            RB1.IsChecked = true;
 
-            // if(count_click == ??)
-            // возможно создание нового окна и вывод в него результатов
-            // progressbar... (добавить прогресс бар и скрыть его нахуй)
-
-            DeserObj();
-
-            // Заполнение вопроса и ответов
-            TT_Term.Text = Deser_Obj[count_click].Data.Question;
-            TT_Term.ToolTip = Deser_Obj[count_click].Data.Termin;
-            RB1_TB.Text = Deser_Obj[count_click].Data.Answer1;
-            RB2_TB.Text = Deser_Obj[count_click].Data.Answer2;
-            RB3_TB.Text = Deser_Obj[count_click].Data.Answer3;
-            RB4_TB.Text = Deser_Obj[count_click].Data.Answer4;
-
-            // Считывание ответа (RadioButton)
-            if ((bool)RB1.IsChecked)
-                Answers[count_click] = 1;
-            else if ((bool)RB2.IsChecked)
-                Answers[count_click] = 2;
-            else if ((bool)RB3.IsChecked)
-                Answers[count_click] = 3;
-            else if ((bool)RB4.IsChecked)
-                Answers[count_click] = 4;
-            else if (count_click > 0)
+            if (count_click == -1)
             {
-                Answers[count_click] = 0;
-                MessageBox.Show($"Вы пропустили ответ на вопрос №{count_click}.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                DeserObj();
+
+                GOST.Text = "";
+                AnswersBackground.Visibility = Visibility.Visible;
+                StackAnswerPanel.Visibility = Visibility.Visible;
+
+                TT_Term.Text = Deser_Obj[count_click + 1].Data.Question;
+                TT_Term.ToolTip = Deser_Obj[count_click + 1].Data.Termin;
+                RB1_TB.Text = Deser_Obj[count_click + 1].Data.Answer1;
+                RB2_TB.Text = Deser_Obj[count_click + 1].Data.Answer2;
+                RB3_TB.Text = Deser_Obj[count_click + 1].Data.Answer3;
+                RB4_TB.Text = Deser_Obj[count_click + 1].Data.Answer4;
             }
+            else if(count_click >= 0 && count_click < 16)
+            {
+                // Считывание ответа (RadioButton)
+                if ((bool)RB1.IsChecked)
+                    Answers[count_click] = 1;
+                else if ((bool)RB2.IsChecked)
+                    Answers[count_click] = 2;
+                else if ((bool)RB3.IsChecked)
+                    Answers[count_click] = 3;
+                else if ((bool)RB4.IsChecked)
+                    Answers[count_click] = 4;
+
+                if (count_click +1 <= 15)
+                {
+                    // Заполнение вопроса и ответов
+                    TT_Term.Text = Deser_Obj[count_click + 1].Data.Question;
+                    TT_Term.ToolTip = Deser_Obj[count_click + 1].Data.Termin;
+                    RB1_TB.Text = Deser_Obj[count_click + 1].Data.Answer1;
+                    RB2_TB.Text = Deser_Obj[count_click + 1].Data.Answer2;
+                    RB3_TB.Text = Deser_Obj[count_click + 1].Data.Answer3;
+                    RB4_TB.Text = Deser_Obj[count_click + 1].Data.Answer4;
+                }
                 
+            }
+            
+            if (count_click >= 15) //>= 15
+            {
+                ResultsWindow WinRes = new ResultsWindow();
 
-            // MessageBox.Show($"{Deser_Obj[0].Data.Question} - кликов сделано");
+                WinRes.Owner = this;
 
+                WinRes.ShowDialog();
 
+                Analyzing();
+
+                return;
+
+                // возможно создание нового окна и вывод в него результатов
+                // progressbar... (добавить прогресс бар и скрыть его нахуй)
+            }
+        
         }
-
-
     }
 }
