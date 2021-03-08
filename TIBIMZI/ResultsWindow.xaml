@@ -24,16 +24,19 @@
 
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Comic Sans MS">
             <Run>Вы набрали </Run>
-            <Run Foreground="#FFE4E42B" FontWeight="Bold">10</Run>
+            <Run Name="TB_balls" Foreground="#FFE4E42B" FontWeight="Bold">10</Run>
             <Run>/ 16 баллов</Run>
         </TextBlock>
 
         <TextBlock Grid.Row="1" Margin="20 0 0 0" FontSize="16" FontWeight="Bold">Рекомендации:</TextBlock>
-        <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 40" Foreground="#FFB01111" Background="#FFD1D7DC" TextWrapping="Wrap">
-            Советы красным цветом, чтобы боялись
-        </TextBlock>
 
-        <TextBlock Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFE77C10" Background="#FFDCD8D1" TextWrapping="Wrap">
+        <ScrollViewer Grid.Row="1" Margin="250 20" Height="100">
+            <TextBlock Grid.Row="1" Name="TB_Bad_solutions" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 40" Foreground="#FFB01111" Background="#FFD1D7DC" TextWrapping="Wrap" >
+            Советы красным цветом, чтобы боялись
+            </TextBlock>
+        </ScrollViewer>
+
+        <TextBlock Grid.Row="2" Name="TB_Normal_solutions" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFE77C10" Background="#FFDCD8D1" TextWrapping="Wrap">
             Больше текста еще больше
         </TextBlock>
         

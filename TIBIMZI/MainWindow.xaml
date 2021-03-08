@@ -48,7 +48,7 @@
             <RadioButton Name="RB1" Margin="20 10 0 0" >
                 <TextBlock Name="RB1_TB" TextWrapping="Wrap">
                     Выбор 1
-                </TextBlock> 
+                </TextBlock>
             </RadioButton>
 
             <RadioButton Name="RB2" Margin="20 5 0 0"  >
@@ -71,14 +71,24 @@
 
         </StackPanel>
 
-        <Button Name="Button1" IsDefault="True" Grid.Row="2" Height="30" Width="120" HorizontalAlignment="Right" Margin="0 15 80 20" Click="Button1_Click" Visibility="Hidden">
+        <Button Name="Button1" IsDefault="True" Grid.Row="2" Height="30" Width="120" HorizontalAlignment="Right" Margin="0 15 50 20" Click="Button1_Click" Visibility="Hidden">
             Далее
         </Button>
-        <!--<Canvas Grid.Row="1" Height="140" Width="400" Background="LightGreen"> 
-            <RadioButton Canvas.Left="40" Canvas.Top="30"></RadioButton>
-			<RadioButton Canvas.Left="40" Canvas.Top="80"></RadioButton>
-            <RadioButton Canvas.Left="230" Canvas.Top="30"></RadioButton>
-            <RadioButton Canvas.Left="230" Canvas.Top="80"></RadioButton>
-        </Canvas>-->
+
+        <TextBlock Name="TB_PB" Grid.Row="2" Margin="80 10 0 0">
+            
+        </TextBlock>
+        
+        <ProgressBar Name="ProgBar" HorizontalAlignment="Center" Height="23" Margin="0,0,150,0" Grid.Row="2" VerticalAlignment="Center" Width="480" Minimum="0" Maximum="100" Visibility="Hidden" Background="#FFE6E6E6"  >
+            
+            <ProgressBar.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFB4C7AD" Offset="1"/>
+                    <GradientStop Color="#FF68C835" Offset="0.202"/>
+                </LinearGradientBrush>
+            </ProgressBar.Foreground>
+           
+        </ProgressBar>
+
     </Grid>
 </Window>

@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,29 +18,85 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TIBIMZI.Models;
 
+
 namespace TIBIMZI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    ///    
+
+
+    // 135 - хорошо
+    // 100-134 - средне
+    // <100 - плохо
+
+
+    // Последняя организация
+    // 100 - хорошо
+    // 80-99 - средне
+    // <80 - плохо
+
+
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
 
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            timer.Tick += new EventHandler(timer_tick);
+            timer.Interval = new TimeSpan(0, 0, 2);
+        }
+
+        private void timer_tick(object sender, EventArgs e)
+        {
+            TB_PB.Text = System_mes[(int)ProgBar.Value / 25];
+            ProgBar.Value += 25;
+            
+            if (ProgBar.Value == ProgBar.Maximum)
+            {
+                timer.Stop();
+
+                MessageBox.Show("Анализ ответов и формирование рекомендаций завершены.", "Блок анализа", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                ResultsWindow WinRes = new ResultsWindow();
+
+                WinRes.Owner = this;
+
+                WinRes.PrintRes(easy_type, Analyzing());
+
+                WinRes.ShowDialog();
+
+                Button1.IsEnabled = true;
+
+                ProgBar.Value = ProgBar.Minimum;
+
+            }
+
         }
 
         static sbyte count_click = -2;
+        bool easy_type = false;
         static byte[] Answers = new byte[16];
+        string[] System_mes = new string[4]
+        {
+                "Начало анализа ответов.",
+                "Завершение анализа ответов.",
+                "Формирование блока рекомендаций.",
+                "Финальная проверка результата анализа."
+        };
 
-        List<Access> Deser_Obj; // Глоб. переменная с данными
+        static List<Access> Deser_Obj; // Глоб. переменная с данными
 
         private void DeserObj() // Метод для считывания данных
         {
-            // read file into a string and deserialize JSON to a type
-            //Movie movie1 = JsonConvert.DeserializeObject<Movie>(File.ReadAllText(@"c:\movie.json"));
-
             try
             {
                 // десериализация JSON из файла
@@ -51,31 +109,31 @@ namespace TIBIMZI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Close();
             }
 
         }
 
-        // СТЕРЕТЬ
-        string[] sov1 = new string[16]; // советы для плохого случая 
-        string[] sov2 = new string[16]; // советы для хорошего случая. Иначе потом заебёмся анализировать что куда вставить
-
-        private float Analyzing()
+        private ArrayList Analyzing()
         {
             float sum = 0.0f;
-            
+
+            ArrayList arrayList = new ArrayList();
+
+            string[] Advices1 = new string[16]; // массив рекомедация для устаревших решений
+            string[] Advices2 = new string[16]; // массив рекомедация теряющих актуальность решений
 
             for (int i = 0; i < Answers.Length; i++)
-            {
-
+            {             
                 switch (Answers[i])
                 {
                     case 1:
                         sum += Deser_Obj[i].Data.Priority1;
 
                         if (Deser_Obj[i].Data.Priority1 == 0.25)
-                            sov1[i] = Deser_Obj[i].Data.Advice1;
+                            Advices1[i] = Deser_Obj[i].Data.Advice1;
                         else if (Deser_Obj[i].Data.Priority1 < 1)
-                            sov2[i] = Deser_Obj[i].Data.Advice2;
+                            Advices2[i] = Deser_Obj[i].Data.Advice2;
 
                         break;
 
@@ -83,9 +141,9 @@ namespace TIBIMZI
                         sum += Deser_Obj[i].Data.Priority2;
 
                         if (Deser_Obj[i].Data.Priority2 == 0.25)
-                            sov1[i] = Deser_Obj[i].Data.Advice1;
+                            Advices1[i] = Deser_Obj[i].Data.Advice1;
                         else if (Deser_Obj[i].Data.Priority2 < 1)
-                            sov2[i] = Deser_Obj[i].Data.Advice2;
+                            Advices2[i] = Deser_Obj[i].Data.Advice2;
 
                         break;
 
@@ -93,9 +151,9 @@ namespace TIBIMZI
                         sum += Deser_Obj[i].Data.Priority3;
 
                         if (Deser_Obj[i].Data.Priority2 == 0.25)
-                            sov1[i] = Deser_Obj[i].Data.Advice1;
+                            Advices1[i] = Deser_Obj[i].Data.Advice1;
                         else if (Deser_Obj[i].Data.Priority2 < 1)
-                            sov2[i] = Deser_Obj[i].Data.Advice2;
+                            Advices2[i] = Deser_Obj[i].Data.Advice2;
 
                         break;
 
@@ -103,26 +161,24 @@ namespace TIBIMZI
                         sum += Deser_Obj[i].Data.Priority4;
 
                         if (Deser_Obj[i].Data.Priority2 == 0.25)
-                            sov1[i] = Deser_Obj[i].Data.Advice1;
+                            Advices1[i] = Deser_Obj[i].Data.Advice1;
                         else if (Deser_Obj[i].Data.Priority2 < 1)
-                            sov2[i] = Deser_Obj[i].Data.Advice2;
+                            Advices2[i] = Deser_Obj[i].Data.Advice2;
 
                         break;
 
                     default:
                         sum += 0;
-
-                        if (Deser_Obj[i].Data.Priority2 == 0.25)
-                            sov1[i] = Deser_Obj[i].Data.Advice1;
-                        else if (Deser_Obj[i].Data.Priority2 < 1)
-                            sov2[i] = Deser_Obj[i].Data.Advice2;
-
                         break;
                 }
-
+              
             }
 
-            return sum*10;
+            arrayList.Add(sum * 10);
+            arrayList.Add(Advices1);
+            arrayList.Add(Advices2);
+
+            return arrayList;
         }
 
         private void CB1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -162,7 +218,8 @@ namespace TIBIMZI
                 else if ((bool)RB4.IsChecked)
                     Answers[count_click] = 4;
 
-                if (count_click +1 <= 15)
+
+                if (count_click + 1 <= 15)
                 {
                     // Заполнение вопроса и ответов
                     TT_Term.Text = Deser_Obj[count_click + 1].Data.Question;
@@ -172,24 +229,33 @@ namespace TIBIMZI
                     RB3_TB.Text = Deser_Obj[count_click + 1].Data.Answer3;
                     RB4_TB.Text = Deser_Obj[count_click + 1].Data.Answer4;
                 }
+
+                if (count_click == 14)
+                    Button1.Content = "Завершить";
                 
             }
             
             if (count_click >= 15) //>= 15
             {
-                ResultsWindow WinRes = new ResultsWindow();
+                switch (CB1.Text)
+                {
+                    case "Банки при подключении к ЕБС":
+                        easy_type = true;
+                        break;
+                    default:
+                        easy_type = false;
+                        break;
+                }
 
-                WinRes.Owner = this;
+                ProgBar.Visibility = Visibility.Visible;
 
-                WinRes.ShowDialog();
+                timer.Start();
 
-                Analyzing();
+                Button1.IsEnabled = false;
 
-                return;
-
-                // возможно создание нового окна и вывод в него результатов
-                // progressbar... (добавить прогресс бар и скрыть его нахуй)
-            }
+                --count_click;
+          
+            }   
         
         }
     }
