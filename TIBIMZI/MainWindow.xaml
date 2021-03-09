@@ -19,7 +19,9 @@
             <RowDefinition Height="0.5*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock Name="abc" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" Width="570" Margin="0 0 0 20" FontSize="16">
+        <Rectangle Grid.Row="0" Fill="WhiteSmoke" Width="610" Height="60" RadiusX="15" RadiusY="15" Opacity="0.8" HorizontalAlignment="Center" Margin="0,-35,0,0" />
+
+        <TextBlock Name="abc" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="50" MinWidth="300" MaxWidth="600" Margin="0 0 0 30" FontSize="16">
             <Run Name="TT_Term" Text="Вас приветствует средство оценки безопасности финансовой организации в соответствии с " >
                 <Run.ToolTip>
                     ...
@@ -28,7 +30,7 @@
 			<Run Name="GOST" FontWeight="Bold">ГОСТ Р 57580.1-2017.</Run>
         </TextBlock>
 
-        <StackPanel Margin="0 0 0 20" Width="200" VerticalAlignment="Bottom" >
+        <StackPanel Grid.Row="0" Margin="0 0 0 20" Width="200" VerticalAlignment="Bottom" >
 
             <TextBlock FontSize="14">Тип организации :</TextBlock>
             <ComboBox Name="CB1" SelectionChanged="CB1_SelectionChanged">
@@ -39,7 +41,6 @@
             </ComboBox>
 
         </StackPanel>
-
 
         <Rectangle Name="AnswersBackground" Grid.Row="1" Fill="WhiteSmoke" Width="600" Height="145" RadiusX="15" RadiusY="15" Margin="10" Opacity="0.5" Visibility="Hidden"/>
 
@@ -71,24 +72,24 @@
 
         </StackPanel>
 
-        <Button Name="Button1" IsDefault="True" Grid.Row="2" Height="30" Width="120" HorizontalAlignment="Right" Margin="0 15 50 20" Click="Button1_Click" Visibility="Hidden">
-            Далее
-        </Button>
+        <TextBlock Name="TB_PB" Grid.Row="2" Margin="80,12,235,55">
 
-        <TextBlock Name="TB_PB" Grid.Row="2" Margin="80 10 0 0">
-            
         </TextBlock>
-        
+
         <ProgressBar Name="ProgBar" HorizontalAlignment="Center" Height="23" Margin="0,0,150,0" Grid.Row="2" VerticalAlignment="Center" Width="480" Minimum="0" Maximum="100" Visibility="Hidden" Background="#FFE6E6E6"  >
-            
+
             <ProgressBar.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFB4C7AD" Offset="1"/>
                     <GradientStop Color="#FF68C835" Offset="0.202"/>
                 </LinearGradientBrush>
             </ProgressBar.Foreground>
-           
+
         </ProgressBar>
+
+        <Button Name="Button1" IsDefault="True" Grid.Row="2" Height="30" Width="120" HorizontalAlignment="Right" Margin="0 15 50 20" Click="Button1_Click" Visibility="Hidden">
+            Далее
+        </Button>
 
     </Grid>
 </Window>

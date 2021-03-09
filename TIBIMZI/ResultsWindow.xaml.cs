@@ -1,21 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TIBIMZI
 {
-    /// <summary>
-    /// Логика взаимодействия для ResultsWindow.xaml
-    /// </summary>
     public partial class ResultsWindow : Window
     {
         public ResultsWindow()
@@ -23,34 +12,71 @@ namespace TIBIMZI
             InitializeComponent();
         }
 
-        public void PrintRes(bool easy_type, ArrayList LAA = null)
+        public void PrintRes(ArrayList arrayList, bool easy_type)
         {
-            if (LAA.Count != 0)
+            if (arrayList.Count != 0)
             {
+                // Для большинства
+                // >= 135 - хорошо
+                // 100-134 - средне
+                // <100 - плохо
+
+                // Для последней организации
+                // >= 100 - хорошо
+                // 80-99 - средне
+                // <80 - плохо
+
                 try
                 {
-                    TB_balls.Text = LAA[0].ToString();
-
-                    string[] sov1 = (string[])LAA[1];
-
-                    //string[] sov2 = new string[16];
-
-                    for (int i = 0; i < sov1.Length; i++)
+                    if (easy_type)
                     {
-                        TB_Bad_solutions.Text += sov1[i] + Environment.NewLine;
+                        if ((float)arrayList[0] >= 100)
+                            TB_balls.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF5BD64E");
+
+                        else if ((float)arrayList[0] >= 80 && (float)arrayList[0] < 100)
+                            TB_balls.Foreground = (Brush)new BrushConverter().ConvertFrom("#FFE4E42B");
+
+                        else
+                            TB_balls.Foreground = (Brush)new BrushConverter().ConvertFrom("#FFC33527");
+                    }
+                    else
+                    {
+                        if ((float)arrayList[0] >= 135)
+                            TB_balls.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF5BD64E");
+
+                        else if ((float)arrayList[0] >= 100 && (float)arrayList[0] < 135)
+                            TB_balls.Foreground = (Brush)new BrushConverter().ConvertFrom("#FFE4E42B");
+
+                        else
+                            TB_balls.Foreground = (Brush)new BrushConverter().ConvertFrom("#FFC33527");
+                    }
+
+                    TB_balls.Text = arrayList[0].ToString();
+                    
+                    foreach (var item in (string[])arrayList[1])
+                    {
+                        if (item != null)
+                            TB_Bad_solutions.Text += " - " + item + Environment.NewLine;
+                    }
+
+                    foreach (var item in (string[])arrayList[2])
+                    {
+                        if (item != null)
+                            TB_Normal_solutions.Text += " - " + item + Environment.NewLine;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    this.Close();
                 }
             }
-            
-            
+             
         }
 
-        // добавить кнопку Выйти, убрать возможно менять размер 
-
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

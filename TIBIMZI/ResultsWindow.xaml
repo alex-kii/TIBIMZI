@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TIBIMZI"
         mc:Ignorable="d"
-        Title="Результаты" Height="450" Width="800">
-    
+        Title="Результаты" Height="500" Width="800" ResizeMode="NoResize">
+
     <Grid>
-        
+
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FFD4DADF" Offset="1"/>
@@ -25,20 +25,30 @@
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" FontFamily="Comic Sans MS">
             <Run>Вы набрали </Run>
             <Run Name="TB_balls" Foreground="#FFE4E42B" FontWeight="Bold">10</Run>
-            <Run>/ 16 баллов</Run>
+            <Run>/ 160 баллов</Run>
         </TextBlock>
 
-        <TextBlock Grid.Row="1" Margin="20 0 0 0" FontSize="16" FontWeight="Bold">Рекомендации:</TextBlock>
+        <TextBlock Grid.Row="1" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center">
+            <Run>Рекомендации:</Run>
+        </TextBlock>
 
-        <ScrollViewer Grid.Row="1" Margin="250 20" Height="100">
-            <TextBlock Grid.Row="1" Name="TB_Bad_solutions" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 40" Foreground="#FFB01111" Background="#FFD1D7DC" TextWrapping="Wrap" >
-            Советы красным цветом, чтобы боялись
+        <ScrollViewer Grid.Row="1" HorizontalAlignment="Center" Width="750" Height="130" Margin="0,35,0,16">
+
+            <TextBlock Name="TB_Bad_solutions" Foreground="#FFB01111" FontSize="14" TextWrapping="Wrap" Background="#FFD1D7DC">
+                    <Run Text="Не найдено"/>
             </TextBlock>
+
         </ScrollViewer>
 
-        <TextBlock Grid.Row="2" Name="TB_Normal_solutions" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FFE77C10" Background="#FFDCD8D1" TextWrapping="Wrap">
-            Больше текста еще больше
-        </TextBlock>
-        
+        <ScrollViewer Grid.Row="2" HorizontalAlignment="Center" Width="750" Height="130" Margin="0,4,0,47">
+
+            <TextBlock Name="TB_Normal_solutions" Foreground="#FFDF7408" FontSize="14" Background="#FFDCD8D1" TextWrapping="Wrap">
+                <Run Text="Не найдено"></Run>
+            </TextBlock>
+
+        </ScrollViewer>
+
+        <Button Grid.Row="2" Height="30" Width="120" HorizontalAlignment="Right" Margin="0,145,50,14" Content="Закрыть" Click="Button1_Click"/>
+
     </Grid>
 </Window>

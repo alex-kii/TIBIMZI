@@ -1,43 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Newtonsoft.Json;
 using TIBIMZI.Models;
-
 
 namespace TIBIMZI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    ///    
-
-
-    // 135 - хорошо
-    // 100-134 - средне
-    // <100 - плохо
-
-
-    // Последняя организация
-    // 100 - хорошо
-    // 80-99 - средне
-    // <80 - плохо
-
-
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -47,7 +18,7 @@ namespace TIBIMZI
             this.Loaded += MainWindow_Loaded;
         }
 
-        System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer(); // timer
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -67,26 +38,21 @@ namespace TIBIMZI
                 MessageBox.Show("Анализ ответов и формирование рекомендаций завершены.", "Блок анализа", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 ResultsWindow WinRes = new ResultsWindow();
-
                 WinRes.Owner = this;
-
-                WinRes.PrintRes(easy_type, Analyzing());
-
+                WinRes.PrintRes(Analyzing(), easy_type);
                 WinRes.ShowDialog();
 
                 Button1.IsEnabled = true;
 
                 ProgBar.Value = ProgBar.Minimum;
-
             }
 
         }
 
-        static sbyte count_click = -2;
+        sbyte count_click = -2;
         bool easy_type = false;
-        static byte[] Answers = new byte[16];
-        string[] System_mes = new string[4]
-        {
+        byte[] Answers = new byte[16];
+        string[] System_mes = new string[4]{
                 "Начало анализа ответов.",
                 "Завершение анализа ответов.",
                 "Формирование блока рекомендаций.",
@@ -99,8 +65,15 @@ namespace TIBIMZI
         {
             try
             {
+                // десериализация JSON из файла (Для отладки)
+                //using (StreamReader file = File.OpenText(@"C:\Users\zifof\source\repos\TIBIMZI\TIBIMZI\SourceFile.json"))
+                //{
+                //    JsonSerializer serializer = new JsonSerializer();
+                //    Deser_Obj = (List<Access>)serializer.Deserialize(file, typeof(List<Access>));
+                //}
+
                 // десериализация JSON из файла
-                using (StreamReader file = File.OpenText(@"C:\Users\zifof\source\repos\TIBIMZI\TIBIMZI\SourceFile.json"))
+                using (StreamReader file = File.OpenText("SourceFile.json"))
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     Deser_Obj = (List<Access>)serializer.Deserialize(file, typeof(List<Access>));
@@ -111,7 +84,6 @@ namespace TIBIMZI
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 this.Close();
             }
-
         }
 
         private ArrayList Analyzing()
@@ -120,8 +92,8 @@ namespace TIBIMZI
 
             ArrayList arrayList = new ArrayList();
 
-            string[] Advices1 = new string[16]; // массив рекомедация для устаревших решений
-            string[] Advices2 = new string[16]; // массив рекомедация теряющих актуальность решений
+            string[] Advices1 = new string[Deser_Obj.Count]; // массив рекомедация для устаревших решений
+            string[] Advices2 = new string[Deser_Obj.Count]; // массив рекомедация теряющих актуальность решений
 
             for (int i = 0; i < Answers.Length; i++)
             {             
@@ -170,8 +142,7 @@ namespace TIBIMZI
                     default:
                         sum += 0;
                         break;
-                }
-              
+                }              
             }
 
             arrayList.Add(sum * 10);
@@ -189,9 +160,8 @@ namespace TIBIMZI
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             ++count_click;
-            RB1.IsChecked = true;
 
-            if (count_click == -1)
+            if (count_click == -1) // Подключение необходимых элементов
             {
                 DeserObj();
 
@@ -218,7 +188,6 @@ namespace TIBIMZI
                 else if ((bool)RB4.IsChecked)
                     Answers[count_click] = 4;
 
-
                 if (count_click + 1 <= 15)
                 {
                     // Заполнение вопроса и ответов
@@ -231,11 +200,10 @@ namespace TIBIMZI
                 }
 
                 if (count_click == 14)
-                    Button1.Content = "Завершить";
-                
+                    Button1.Content = "Итог";              
             }
             
-            if (count_click >= 15) //>= 15
+            if (count_click >= 15) // Начало анализа данных                
             {
                 switch (CB1.Text)
                 {
@@ -253,10 +221,12 @@ namespace TIBIMZI
 
                 Button1.IsEnabled = false;
 
-                --count_click;
-          
-            }   
-        
+                --count_click;          
+            }
+
+            if (count_click < 15)
+                RB1.IsChecked = true; // Исходный выбор на RB1
+
         }
     }
 }
