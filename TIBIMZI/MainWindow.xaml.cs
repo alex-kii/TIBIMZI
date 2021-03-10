@@ -122,9 +122,9 @@ namespace TIBIMZI
                     case 3:
                         sum += Deser_Obj[i].Data.Priority3;
 
-                        if (Deser_Obj[i].Data.Priority2 == 0.25)
+                        if (Deser_Obj[i].Data.Priority3 == 0.25)
                             Advices1[i] = Deser_Obj[i].Data.Advice1;
-                        else if (Deser_Obj[i].Data.Priority2 < 1)
+                        else if (Deser_Obj[i].Data.Priority3 < 1)
                             Advices2[i] = Deser_Obj[i].Data.Advice2;
 
                         break;
@@ -132,9 +132,9 @@ namespace TIBIMZI
                     case 4:
                         sum += Deser_Obj[i].Data.Priority4;
 
-                        if (Deser_Obj[i].Data.Priority2 == 0.25)
+                        if (Deser_Obj[i].Data.Priority4 == 0.25)
                             Advices1[i] = Deser_Obj[i].Data.Advice1;
-                        else if (Deser_Obj[i].Data.Priority2 < 1)
+                        else if (Deser_Obj[i].Data.Priority4 < 1)
                             Advices2[i] = Deser_Obj[i].Data.Advice2;
 
                         break;
